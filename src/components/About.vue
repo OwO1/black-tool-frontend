@@ -2,23 +2,7 @@
   <div>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1', '3']">
-          <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>导航一</template>
-            <el-menu-item-group>
-              <template slot="title">分组一</template>
-              <el-menu-item index="1-1" @click="go">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-        </el-menu>
+        <Nav />
       </el-aside>
 
       <el-container>
@@ -79,6 +63,7 @@
 
 <script>
 import axios from 'axios'
+import Nav from '@/components/nav'
 
 // .可以显示常用的快捷键，并进行复制
 export default {
@@ -92,9 +77,13 @@ export default {
       tableData: Array(1).fill(item)
     }
   },
+  components: {
+    Nav
+  },
   methods: {
     go() {
-      this.$router.push('/helloword')
+      console.log('1111')
+      // this.$router.push('/helloworld/')
     },
     handleCopy(index, row) {
       let command = this.tableData[index].command
