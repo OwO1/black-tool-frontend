@@ -6,7 +6,7 @@
           <i class="el-icon-document"></i>
           <span slot="title">文档类</span>
         </template>
-        <el-menu-item index="1-1">选项1</el-menu-item>
+        <el-menu-item index="1-1" @click="goCommands">常用命令</el-menu-item>
         <el-menu-item index="1-2">选项2</el-menu-item>
       </el-submenu>
 
@@ -15,7 +15,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">工具类</span>
         </template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-1" @click="goTodos">代办事项列表</el-menu-item>
         <el-menu-item index="2-2">选项2</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -42,6 +42,12 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath)
+    },
+    goTodos() {
+      this.$router.push('/todos/')
+    },
+    goCommands() {
+      this.$router.push('/commands/')
     }
   }
 }
