@@ -10,13 +10,14 @@
         </el-header>
         <el-main>
           <div style="margin-top: 15px;">
-            <el-input placeholder="请输入内容" v-model="todo" class="input-with-select">
-              <el-select v-model="todoType" slot="prepend" placeholder="请选择">
+            <el-input placeholder="请输入内容" v-model="submitObj.todo" class="input-with-select">
+              <el-select v-model="submitObj.todoType" slot="prepend" placeholder="请选择">
                 <el-option label="今日代办" value="1"></el-option>
                 <el-option label="日后代办" value="2"></el-option>
               </el-select>
               <el-button type="primary" slot="append" icon="el-icon-edit" @click="submit"></el-button>
             </el-input>
+            <el-input type="textarea" placeholder="请输入备注" v-model="submitObj.todoNote"> </el-input>
           </div>
 
           <h3>今日代办</h3>
@@ -28,7 +29,7 @@
           <h3>日后代办</h3>
 
           <div style="margin-top: 15px;">
-            <Todo v-bind:type="2"/>
+            <Todo v-bind:type="2" />
           </div>
         </el-main>
       </el-container>
@@ -63,7 +64,7 @@
 // 4.代办事项可以转换状态
 // 5.可以标记删除
 //
-// import axios from 'axios'
+import axios from 'axios'
 import Nav from '@/components/Nav.vue'
 import Todo from '@/components/Todo.vue'
 
@@ -71,8 +72,11 @@ import Todo from '@/components/Todo.vue'
 export default {
   data() {
     return {
-      todo: 'docker',
-      todoType: '1',
+      submitObj: {
+        todo: 'docker',
+        todoType: '1',
+        todoNote: '22222'
+      },
       todayTodos: [
         {
           todo: 'docker',
@@ -89,7 +93,15 @@ export default {
   },
   methods: {
     submit() {
-      console.log('123')
+      const path = 'http://127.0.0.1:5000/api/todo/create/'
+      axios
+        .post(path, this.submitObj)
+        .then(response => {
+          console.log('res=>', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   created() {
