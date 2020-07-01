@@ -97,6 +97,11 @@ export default {
       axios
         .post(path, this.submitObj)
         .then(response => {
+          this.submitObj = {
+            todo: '',
+            todoType: this.submitObj.todoType,
+            todoNote: ''
+          }
           console.log('res=>', response)
         })
         .catch(error => {

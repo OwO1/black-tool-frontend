@@ -29,26 +29,50 @@
 //     '1': 今日代办,
 //     '2': 日后代办,
 // }
+import axios from 'axios'
+
 export default {
   props: ['type'],
   data() {
     return {
-      tableData: [
-        {
-          todo: 'docker',
-          type: '1',
-          status: '1'
-        }
-      ]
+      tableData: []
     }
   },
   methods: {
+    get_data() {
+      const path = 'http://127.0.0.1:5000/api/todo/list/'
+      axios
+        .get(path, {
+          params: {
+            todoType: this.type
+          }
+        })
+        .then(response => {
+          this.tableData = response.data.data.list
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     handleEdit(index, row) {
       console.log(index, row)
     },
     handleDelete(index, row) {
-      console.log(index, row)
+      const path = 'http://127.0.0.1:5000/api/todo/delete/'
+      let dataId = this.tableData[index]['id']
+
+      axios
+        .post(path, { id: dataId })
+        .then(response => {
+          this.get_data()
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+  },
+  created() {
+    this.get_data()
   }
 }
 </script>
