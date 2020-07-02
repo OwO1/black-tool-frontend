@@ -6,7 +6,6 @@
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p>备注: {{ scope.row.todo }}</p>
-            <!-- <p>住址: {{ scope.row.address }}</p> -->
             <div slot="reference" class="name-wrapper">
               <el-tag size="medium">{{ scope.row.todo }}</el-tag>
             </div>
@@ -15,8 +14,8 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.type === '1'" size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">移至日后代办</el-button>
-          <el-button v-if="scope.row.type === '2'" size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">移至今日代办</el-button>
+          <el-button v-if="scope.row.type === 1" size="mini" type="success" @click="handleTransfer(scope.$index, scope.row)">移至日后代办</el-button>
+          <el-button v-if="scope.row.type === 2" size="mini" type="success" @click="handleTransfer(scope.$index, scope.row)">移至今日代办</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -69,6 +68,25 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    handleTransfer(index, row) {
+      const path = 'http://127.0.0.1:5000/api/todo/update/'
+      let currentTodo = this.tableData[index]
+      if (this.type === 1) {
+        currentTodo.type = '2'
+      } else {
+        currentTodo.type = '1'
+      }
+      axios
+        .post(path, currentTodo)
+        .then(response => {
+          this.$emit('updateInfo', '子组件数据')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      this.transfer(index)
     }
   },
   created() {

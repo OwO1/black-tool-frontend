@@ -23,13 +23,13 @@
           <h3>今日代办</h3>
 
           <div style="margin-top: 15px;">
-            <Todo v-bind:type="1" />
+            <Todo v-bind:type="1" @updateInfo="updateTodos" ref="todayTodo"/>
           </div>
 
           <h3>日后代办</h3>
 
           <div style="margin-top: 15px;">
-            <Todo v-bind:type="2" />
+            <Todo v-bind:type="2" @updateInfo="updateTodos" ref="afterTodo"/>
           </div>
         </el-main>
       </el-container>
@@ -107,6 +107,10 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    updateTodos(data) {
+      this.$refs.todayTodo.get_data()
+      this.$refs.afterTodo.get_data()
     }
   },
   created() {
