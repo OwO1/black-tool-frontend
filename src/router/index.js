@@ -5,6 +5,8 @@ const routerOptions = [
   { path: '/', component: 'Home' },
   { path: '/commands/', component: 'Commands' },
   { path: '/todos/', component: 'Todos' },
+  { path: '/transfer/', component: 'Transfer' },
+  { path: '/compare/', component: 'Compare' },
   { path: '/helloword', component: 'HelloWorld' },
   { path: '*', component: 'NotFound' }
 ]

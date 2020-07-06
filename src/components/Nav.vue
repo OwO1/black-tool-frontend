@@ -16,7 +16,8 @@
           <span slot="title">工具类</span>
         </template>
         <el-menu-item index="2-1" @click="goTodos">代办事项列表</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
+        <el-menu-item index="2-2" @click="goTransfer">字符转换</el-menu-item>
+        <el-menu-item index="2-2" @click="goCompare">Dict/Json对比</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -45,6 +46,12 @@ export default {
     },
     goTodos() {
       this.$router.push('/todos/')
+    },
+    goTransfer() {
+      this.$router.push('/transfer/')
+    },
+    goCompare() {
+      this.$router.push('/compare/')
     },
     goCommands() {
       this.$router.push('/commands/')

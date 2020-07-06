@@ -14,8 +14,9 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.type === 1" size="mini" type="success" @click="handleTransfer(scope.$index, scope.row)">移至日后代办</el-button>
-          <el-button v-if="scope.row.type === 2" size="mini" type="success" @click="handleTransfer(scope.$index, scope.row)">移至今日代办</el-button>
+          <el-button size="mini" type="success" @click="handleFinish(scope.$index, scope.row)">完成</el-button>
+          <el-button v-if="scope.row.type === 1" size="mini" type="primary" @click="handleTransfer(scope.$index, scope.row)">移至日后代办</el-button>
+          <el-button v-if="scope.row.type === 2" size="mini" type="primary" @click="handleTransfer(scope.$index, scope.row)">移至今日代办</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -69,6 +70,19 @@ export default {
           console.log(error)
         })
     },
+    handleFinish(index, row) {
+      const path = 'http://127.0.0.1:5000/api/todo/update/'
+      let currentTodo = this.tableData[index]
+      currentTodo.status = '1'
+      axios
+        .post(path, currentTodo)
+        .then(response => {
+          this.$emit('updateInfo', '子组件数据')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     handleTransfer(index, row) {
       const path = 'http://127.0.0.1:5000/api/todo/update/'
       let currentTodo = this.tableData[index]
@@ -85,8 +99,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-
-      this.transfer(index)
     }
   },
   created() {
