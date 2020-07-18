@@ -10,11 +10,14 @@
         </el-header>
         <el-main>
           <h3>原始字符串</h3>
-          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 15 }" placeholder="请输入内容" v-model="textarea2"> </el-input>
+          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 15 }" placeholder="请输入内容" v-model="originalString"> </el-input>
 
           <h3>转换后字符串</h3>
 
-          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 15 }" placeholder="请输入内容" v-model="textarea2"> </el-input>
+          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 15 }" placeholder="请输入内容" v-model="transferString"> </el-input>
+
+          <el-button size="mini" type="success" @click="transfer">转换</el-button>
+          <el-button size="mini" type="danger">复制</el-button>
         </el-main>
       </el-container>
     </el-container>
@@ -41,34 +44,15 @@
 </style>
 
 <script>
-// 代办事项需求说明
-// 1.有个输入框新建代办事项
-// 2.代办事项有两种类型，一个是今日代办，一个是日后代办
-// 3.代办事项有个完成状态
-// 4.代办事项可以转换状态
-// 5.可以标记删除
-//
 import axios from 'axios'
 import Nav from '@/components/Nav.vue'
 import Todo from '@/components/Todo.vue'
 
-// .可以显示常用的快捷键，并进行复制
 export default {
   data() {
     return {
-      submitObj: {
-        todo: 'docker',
-        todoType: '1',
-        todoNote: '22222'
-      },
-      todayTodos: [
-        {
-          todo: 'docker',
-          type: '1',
-          status: '1'
-        }
-      ],
-      afterTodos: []
+      originalString: '',
+      transferString: ''
     }
   },
   components: {
@@ -76,25 +60,24 @@ export default {
     Todo
   },
   methods: {
+    transfer() {
+      console.log(this.originalString)
+      console.log(this.transferString)
+      this.submit()
+    },
     submit() {
-      const path = 'http://127.0.0.1:5000/api/todo/create/'
+      const path = 'http://127.0.0.1:5000/api/transfer/info/'
+      let submitObj = {
+        originalString: this.originalString
+      }
       axios
-        .post(path, this.submitObj)
+        .post(path, submitObj)
         .then(response => {
-          this.submitObj = {
-            todo: '',
-            todoType: this.submitObj.todoType,
-            todoNote: ''
-          }
-          console.log('res=>', response)
+          this.transferString = response.data.data
         })
         .catch(error => {
           console.log(error)
         })
-    },
-    updateTodos(data) {
-      this.$refs.todayTodo.get_data()
-      this.$refs.afterTodo.get_data()
     }
   },
   created() {
